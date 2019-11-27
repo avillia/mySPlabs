@@ -45,7 +45,7 @@ def is_numeric(token):
 
 
 def is_float(token):
-    return False if "." not in token else True
+    return True if is_numeric(token) and "." in token else False
 
 
 def preprocessing(rawInput):
@@ -201,11 +201,16 @@ def bifurcation(rpn: list):
     return tree
 
 
-def print_tree(tree, indent=0):
-    if len(tree[-1]) > 1:
-        print(f"{tree[1].rjust(len(tree[0])+2)}\n{tree[0].rjust(indent)} | {print_tree(tree[-1], len(tree[0])+3)}")
-    else:
-        print(f"{tree[1].rjust(len(tree[0])+2)}\n{tree[0].rjust(indent)} | {tree[2]}")
+def print_tree(tree:list):
+    indent = 0
+    print(' '*(len(tree[0])+1), end="")
+    while type(tree[2]) == list:
+        operation = tree[1]
+        operand = tree[0]
+        tree = tree.pop()
+        print(f"{operation.rjust(len(operand))}\n{operand.rjust(indent+1)} | ", end="")
+        indent += len(tree[0])+1
+    print(f"{tree[1].rjust(len(tree[0]))}\n{tree[0].rjust(indent+1)} | {tree[2]}",)
 
 
 if __name__ == "__main__":
@@ -229,7 +234,6 @@ if __name__ == "__main__":
     check_indexing(inputTokens)
 
     RPN = to_RPN(inputTokens, variables, nums)
-    print(RPN)
 
     myTree = bifurcation(RPN)
     print(myTree)
