@@ -33,7 +33,7 @@ comparison = [">", "<", "==", "=<", "=>"]
 nextStep = [";", ":"]
 
 infixOperation = ["!"]
-dot = ["."]
+invariableDelimeters = [".", "_"]
 
 operationOrder = [assignment,lowOperations, middleOperations, highOperations, incrementDecrement, parenBrackets]
 
