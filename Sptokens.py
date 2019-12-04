@@ -3,10 +3,9 @@ alphabet = "".join([chr(i) for i in range (65, 91)] + [chr(i) for i in range (97
 nums = "1234567890"
 
 
-serviceWords = ['int', 'void', 'float', 'while', 'do',
-                'if', 'then', 'else', 'switch', 'case',
-                'break', 'default', 'repeat', 'begin',
-                'end', 'until', 'for']
+serviceWords = ['if', 'then', 'else',
+                'for', 'to', 'do',
+                'begin', 'end']
 
 allTokens = {'=': 'assign', ':': 'colon', '?': 'question_mark',
           '*': 'mul', '[': 'left_square_bracket', ']': 'right_square_bracket',

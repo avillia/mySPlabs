@@ -32,7 +32,7 @@ def is_float(token):
 def preprocessing(rawInput):
     if rawInput[-1] != ";":
         print("Error occurred!\n",
-              "Missing end of statement {} !".format(rawInput))
+              "Missing end of statement {}__ !".format(rawInput))
         exit()
 
     tokens = []
@@ -148,40 +148,44 @@ def check_indexing(tokens, nums, variables):
 
         i += 1
 
-def processing(tokens):
-    variables = []
-    nums = []
 
+def no_missing_operands(tokens, variables, nums):
     i = 0
     while i < len(tokens):
-
-        if is_variable_or_num(tokens[i - 1]):
-            if is_variable_or_num(tokens[i]):
-                print("Error occurred!\n"
-                      f"Missing operand between instances: {tokens[i - 1]}___{tokens[i]}")
-                exit()
-            else:
-                if is_numeric(tokens[i - 1]):
-                    nums.append(tokens[i - 1])
-                else:
-                    variables.append(tokens[i - 1])
-
+        if (tokens[i-1] in variables or tokens[i-1] in nums)\
+        and (tokens[i] in variables or tokens[i] in nums):
+            print("Error occurred!\n"
+                  f"Missing operand: {tokens[i-1]}__{tokens[i]}!")
+            exit()
         i += 1
+
+
+def split_variables_and_nums(tokens):
+    variables = []
+    nums = []
+    for instance in tokens:
+        if is_variable_or_num(instance):
+            if is_numeric(instance):
+                nums.append(instance)
+            else:
+                variables.append(instance)
 
     return variables, nums
 
 
 if __name__ == "__main__":
 
-    codeToProcess = "b = (2*a +c/d) * a[asd.gay];"
+    codeToProcess = "b = (2*a +c/d) * a da;"
     print("Your input: ", codeToProcess, "\n")
 
     inputTokens = preprocessing(codeToProcess)
     print("Input by tokens:\n", inputTokens, "\n")
 
-    currentVariables, currentNums = processing(inputTokens)
+    inputVariables, inputNums = split_variables_and_nums(inputTokens)
+
+    no_missing_operands(inputTokens, inputVariables, inputNums)
 
     brackets_check(inputTokens)
-    check_indexing(inputTokens, nums=currentNums, variables=currentVariables)
+    check_indexing(inputTokens, inputVariables, inputNums)
 
     print("No error occurred!")
