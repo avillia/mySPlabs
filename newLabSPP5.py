@@ -47,32 +47,18 @@ def to_RPN(tokens, variables, nums):
 
 
 def bifurcation(rpn: list):
-    tree = []
+    tree = rpn
 
-    operand = rpn.pop()
-    restOperands = [order_of_operation(i) for i in rpn]
-
-    if len(rpn) > 3:
-        if order_of_operation(operand) < max_operand(restOperands):
-            tree += [rpn[0], operand, bifurcation(rpn[1:])]
-        else:
-            tree += [rpn[-1], operand, bifurcation(rpn[:-1])]
-    else:
-        tree += [rpn[0], operand, rpn[-1]]
+    i = 0
+    while i < len(tree)-1:
+        if rpn[i] in Tokens.possibleOperations:
+            tree[i] = tree[i-2:i+1]
+            tree.pop(i-1)
+            tree.pop(i-2)
+            i -= 2
+        i += 1
 
     return tree
-
-
-def print_tree(tree:list):
-    indent = 0
-    print(' '*(len(tree[0])+1), end="")
-    while type(tree[2]) == list:
-        operation = tree[1]
-        operand = tree[0]
-        tree = tree.pop()
-        print(f"{operation.rjust(len(operand))}\n{operand.rjust(indent+1)} | ", end="")
-        indent += len(tree[0])+1
-    print(f"{tree[1].rjust(len(tree[0]))}\n{tree[0].rjust(indent+1)} | {tree[2]}",)
 
 
 if __name__ == "__main__":
@@ -101,4 +87,4 @@ if __name__ == "__main__":
     myTree = bifurcation(RPN)
     print("Nested array representing sequence of operations:\n", myTree, "\n")
 
-    print_tree(myTree)
+    # print_tree(myTree)

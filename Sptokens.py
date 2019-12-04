@@ -2,6 +2,7 @@ alphabet = "".join([chr(i) for i in range (65, 91)] + [chr(i) for i in range (97
 
 nums = "1234567890"
 
+
 serviceWords = ['int', 'void', 'float', 'while', 'do',
                 'if', 'then', 'else', 'switch', 'case',
                 'break', 'default', 'repeat', 'begin',
